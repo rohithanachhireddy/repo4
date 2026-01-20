@@ -1,0 +1,62 @@
+def add_student():
+    with open("students.txt", "a") as file:
+        roll = input("Enter Roll Number: ")
+        name = input("Enter Name: ")
+        marks = input("Enter Marks: ")
+        file.write(f"{roll},{name},{marks}\n")
+    print("✅ Student added successfully!\n")
+
+
+def view_students():
+    try:
+        with open("students.txt", "r") as file:
+            students = file.readlines()
+            if not students:
+                print("No student records found.\n")
+            else:
+                print("\n--- Student Records ---")
+                for student in students:
+                    roll, name, marks = student.strip().split(",")
+                    print(f"Roll: {roll}, Name: {name}, Marks: {marks}")
+                print()
+    except FileNotFoundError:
+        print("No student file found.\n")
+
+
+def search_student():
+    roll_no = input("Enter Roll Number to search: ")
+    found = False
+    try:
+        with open("students.txt", "r") as file:
+            for student in file:
+                roll, name, marks = student.strip().split(",")
+                if roll == roll_no:
+                    print(f"\nStudent Found → Roll: {roll}, Name: {name}, Marks: {marks}\n")
+                    found = True
+                    break
+        if not found:
+            print("❌ Student not found.\n")
+    except FileNotFoundError:
+        print("No student file found.\n")
+
+
+while True:
+    print("===== Student Management System =====")
+    print("1. Add Student")
+    print("2. View Students")
+    print("3. Search Student")
+    print("4. Exit")
+
+    choice = input("Enter your choice: ")
+
+    if choice == "1":
+        add_student()
+    elif choice == "2":
+        view_students()
+    elif choice == "3":
+        search_student()
+    elif choice == "4":
+        print("Exiting program. Goodbye!")
+        break
+    else:
+        print("Invalid choice. Try again.\n")
